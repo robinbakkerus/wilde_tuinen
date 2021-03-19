@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wilde_tuinen/controller/app_controller.dart';
-import 'package:wilde_tuinen/event/app_events.dart';
-import 'package:wilde_tuinen/util/widget_utils.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({required this.title}) : super();
@@ -12,33 +10,30 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    super.initState();
-    AppController();
+  late GoogleMapController mapController;
+
+  final LatLng _center = const LatLng(45.521563, -122.677433);
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Image(
-            image: AssetImage('lib/assets/Nuenen_gerwen_nederwetten_006.jpg')),
-        WidgetUtils.verSpace(5),
-        Text(
-            'Todo hier uitleg over deze app om vrijwilligers aan te melden etc...'),
-        WidgetUtils.verSpace(5),
-        ElevatedButton(
-          child: Text('Meld vrijwilliger aan'),
-          onPressed: _onClick,
-        )
-      ],
-    ));
-  }
-
-  void _onClick() {
-    AppEvents.fireAddGarden();
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Maps Sample App'),
+          backgroundColor: Colors.green[700],
+        ),
+        body: GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 11.0,
+          ),
+        ),
+      ),
+    );
   }
 }
