@@ -2,9 +2,9 @@ import 'package:camera/camera.dart';
 import 'package:wilde_tuinen/model/garden.dart';
 
 class Constants {
-  static String title;
-  static CameraDescription camera;
-  static String imagePath;
+  static late String title;
+  static late CameraDescription camera;
+  static late String imagePath;
 }
 
 const int STACK_HOME = 0;

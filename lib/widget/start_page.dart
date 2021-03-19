@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wilde_tuinen/widget/main_appbar.dart';
 // import '../data/constants.dart';
-import 'package:wilde_tuinen/widget/add_vrijwilliger_page.dart';
 import 'package:wilde_tuinen/widget/home_page.dart';
 import 'package:wilde_tuinen/widget/make_photo_page.dart';
 import 'package:wilde_tuinen/widget/admin.dart';
@@ -22,7 +21,7 @@ class StartPage extends StatelessWidget {
 }
 
 class _StartPage extends StatefulWidget {
-  _StartPage({Key key, this.title}) : super(key: key);
+  _StartPage({required this.title}) : super();
   final String title;
 
   @override
@@ -48,11 +47,10 @@ class _StartPageState extends State<_StartPage> {
         body: IndexedStack(
           index: _stackIndex,
           children: <Widget>[
-            HomePage(),               // 0
-            AddVrijwilligerPage(),    // 1
-            TakePictureScreen(),      // 2
-            DisplayPhotoPage(),       // 3
-            AdminPage(),              // 4
+            HomePage(title: 'Wilde tuinen'), // 0
+            TakePictureScreen(), // 2
+            DisplayPhotoPage(), // 3
+            AdminPage(), // 4
           ],
         ));
   }

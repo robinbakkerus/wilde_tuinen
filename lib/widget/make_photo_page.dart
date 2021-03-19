@@ -7,8 +7,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:wilde_tuinen/event/app_events.dart';
 
 class TakePictureScreen extends StatelessWidget {
-  TakePictureScreen({Key key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Widget>(
@@ -22,9 +20,8 @@ class TakePictureScreen extends StatelessWidget {
               return Text('Awaiting result...');
             case ConnectionState.done:
               if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-              return snapshot.data;
+              return Text(snapshot.data.toString());
           }
-          return null; // unreachable
         });
   }
 
@@ -38,18 +35,15 @@ class TakePictureScreen extends StatelessWidget {
 class _TakePictureScreen extends StatefulWidget {
   final CameraDescription camera;
 
-  const _TakePictureScreen({
-    Key key,
-    @required this.camera,
-  }) : super(key: key);
+  const _TakePictureScreen({required this.camera}) : super();
 
   @override
   _TakePictureScreenState createState() => _TakePictureScreenState();
 }
 
 class _TakePictureScreenState extends State<_TakePictureScreen> {
-  CameraController _controller;
-  Future<void> _initializeControllerFuture;
+  late CameraController _controller;
+  late Future<void> _initializeControllerFuture;
   String saveResult = "";
 
   @override
@@ -102,11 +96,12 @@ class _TakePictureScreenState extends State<_TakePictureScreen> {
         (await getTemporaryDirectory()).path,
         '${DateTime.now()}.png',
       );
+      print(path);
 
-      await _controller.takePicture(path);
+      XFile file = await _controller.takePicture();
 
       // If the picture was taken, display it on a new screen.
-      AppEvents.fireCompressPicture(path);
+      AppEvents.fireCompressPicture(file.path);
     } catch (e) {
       print(e);
     }

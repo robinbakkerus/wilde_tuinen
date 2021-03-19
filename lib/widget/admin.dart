@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wilde_tuinen/widget/where_input_field.dart';
 
 class AdminPage extends StatelessWidget {
-  const AdminPage({Key key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,14 +10,12 @@ class AdminPage extends StatelessWidget {
 }
 
 class _AdminPage extends StatefulWidget {
-  _AdminPage({Key key}) : super(key: key);
-
   @override
   __AdminPageState createState() => __AdminPageState();
 }
 
 class __AdminPageState extends State<_AdminPage> {
-  String imagePath;
+  String imagePath = '';
   int n = 0;
 
   @override
@@ -32,7 +27,7 @@ class __AdminPageState extends State<_AdminPage> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        WhereInputField(),
+        Text('TODO'),
       ],
     );
   }

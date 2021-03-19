@@ -24,12 +24,12 @@ class AppController {
 
   void _onCompressPicture(CompressPictureEvent event) {
     String compressedPath = ImageUtils.compress(event.imagePath);
-    AppData.currentGarden.fotoBase64 = ImageUtils.imageAsBase64(compressedPath);
+    // AppData.currentGarden.fotoBase64 = ImageUtils.imageAsBase64(compressedPath);
     AppEvents.fireShowPicture(compressedPath);
     AppEvents.fireSwitchStack(STACK_SHOW_PICTURE);
   }
 
-    void _onSaveGarden(SaveGardenEvent event) {
+  void _onSaveGarden(SaveGardenEvent event) {
     AppData.currentGarden.lastupdated = DateTime.now();
     AppData.currentGarden.updatedBy = ""; //todo
     FirestoreService()..saveVolunteer(AppData.currentGarden);

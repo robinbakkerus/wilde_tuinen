@@ -4,7 +4,7 @@ import 'package:wilde_tuinen/event/app_events.dart';
 import 'package:wilde_tuinen/util/widget_utils.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
+  HomePage({required this.title}) : super();
   final String title;
 
   @override
@@ -12,7 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  
   @override
   void initState() {
     super.initState();
@@ -28,9 +27,10 @@ class _HomePageState extends State<HomePage> {
         Image(
             image: AssetImage('lib/assets/Nuenen_gerwen_nederwetten_006.jpg')),
         WidgetUtils.verSpace(5),
-        Text('Todo hier uitleg over deze app om vrijwilligers aan te melden etc...'),
+        Text(
+            'Todo hier uitleg over deze app om vrijwilligers aan te melden etc...'),
         WidgetUtils.verSpace(5),
-        RaisedButton(
+        ElevatedButton(
           child: Text('Meld vrijwilliger aan'),
           onPressed: _onClick,
         )
