@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:camera/camera.dart';
 import 'package:wilde_tuinen/widget/start_page.dart';
-// import 'package:wilde_tuinen/data/constants.dart';
+import 'package:wilde_tuinen/widget/garden_detail_page.dart';
+import 'package:wilde_tuinen/event/app_events.dart';
 
 void main() async {
   // WidgetsFlutterBinding.ensureInitialized();
@@ -16,11 +16,50 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'NGN200',
+        title: 'Tuinen',
+        theme: new ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: _App());
+  }
+}
+
+class _App extends StatefulWidget {
+  @override
+  _AppState createState() => new _AppState();
+}
+
+class _AppState extends State<_App> {
+  int _stackIndex = 0;
+
+  _AppState() {
+    AppEvents.onSwitchTask(_onSwitchTask);
+  }
+
+  _onSwitchTask(SwitchStackEvent event) {
+    if (event.type == StackType.MAIN) {
+      setState(() {
+        this._stackIndex = event.stackIndex;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Tuinen',
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: StartPage(),
+      home: IndexedStack(
+        index: _stackIndex,
+        children: <Widget>[StartPage(), GardenDetailPage()],
+      ),
     );
   }
 }

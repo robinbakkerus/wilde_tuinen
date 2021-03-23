@@ -11,11 +11,11 @@ class StartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'NGN200 Vrijwilligers',
+      title: 'Tuinen in Nuenen',
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: _StartPage(title: 'NGN200 Vrijwilligers'),
+      home: _StartPage(title: 'Tuinen in Nuenen'),
     );
   }
 }
@@ -32,7 +32,7 @@ class _StartPageState extends State<_StartPage> {
   int _stackIndex = 0;
 
   _StartPageState() {
-    AppEvents.onSwitchTask(_switchStack);
+    AppEvents.onSwitchTask(_onSwitchStack);
   }
 
   @override
@@ -55,9 +55,11 @@ class _StartPageState extends State<_StartPage> {
         ));
   }
 
-  void _switchStack(SwitchStackEvent event) {
-    setState(() {
-      this._stackIndex = event.stackIndex;
-    });
+  void _onSwitchStack(SwitchStackEvent event) {
+    if (event.type == StackType.MAIN) {
+      setState(() {
+        this._stackIndex = event.stackIndex;
+      });
+    }
   }
 }

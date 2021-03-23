@@ -19,14 +19,14 @@ class AppController {
   }
 
   void _onTakePicture(TakePictureEvent event) {
-    AppEvents.fireSwitchStack(STACK_TAKE_PICTURE);
+    AppEvents.fireSwitchStack(StackType.START_PAGE, STACK_TAKE_PICTURE);
   }
 
   void _onCompressPicture(CompressPictureEvent event) {
     String compressedPath = ImageUtils.compress(event.imagePath);
     // AppData.currentGarden.fotoBase64 = ImageUtils.imageAsBase64(compressedPath);
     AppEvents.fireShowPicture(compressedPath);
-    AppEvents.fireSwitchStack(STACK_SHOW_PICTURE);
+    AppEvents.fireSwitchStack(StackType.START_PAGE, STACK_SHOW_PICTURE);
   }
 
   void _onSaveGarden(SaveGardenEvent event) {
@@ -34,11 +34,11 @@ class AppController {
     AppData.currentGarden.updatedBy = ""; //todo
     FirestoreService()..saveVolunteer(AppData.currentGarden);
     //Todo geef okay msg
-    AppEvents.fireSwitchStack(STACK_HOME.hashCode);
+    AppEvents.fireSwitchStack(StackType.START_PAGE, STACK_HOME.hashCode);
   }
 
   void _onAddGarden(AddGardenEvent event) {
     AppData.currentGarden = Garden();
-    AppEvents.fireSwitchStack(STACK_ADD);
+    AppEvents.fireSwitchStack(StackType.START_PAGE, STACK_ADD);
   }
 }
