@@ -43,6 +43,11 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
     return new Scaffold(
       appBar: _buildAppBar(context),
       body: _buildBody(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          backgroundColor: Colors.green,
+          onPressed: _addNote(context)),
     );
   }
 
@@ -118,18 +123,53 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
   }
 
   Widget _buildCard(Note note) {
-    String msg = 'note.note';
+    String title = note.note;
+    String subTtite = note.updatedBy;
     return Card(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          const ListTile(
-            leading: Icon(Icons.album, size: 50),
-            title: Text(msg),
-            subtitle: Text('TWICE'),
+          ListTile(
+            title: Text(title),
+            subtitle: Text(subTtite),
           ),
         ],
       ),
+    );
+  }
+
+  _addNote(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => _buildPopupDialog(context),
+    );
+  }
+
+  Widget _buildPopupDialog(BuildContext context) {
+    return new AlertDialog(
+      title: Text('Add note'),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              AppEvents.fireSwitchStack(StackType.MAIN, 1);
+              AppEvents.fireGardenSelected();
+            },
+            child: const Text('Meer ...'),
+          ),
+        ],
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Sluit'),
+        ),
+      ],
     );
   }
 }
