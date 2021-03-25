@@ -39,7 +39,9 @@ class MarkersReadyEvent {
   MarkersReadyEvent(this.markers);
 }
 
-//--- AppEvents
+class GardenSelectedEvent {}
+
+//--- AppEvents -----------------
 class AppEvents {
   static final EventBus _sEventBus = new EventBus();
 
@@ -59,6 +61,7 @@ class AppEvents {
   static void fireSaveGarden() => _sEventBus.fire(SaveGardenEvent());
   static void fireAddGarden() => _sEventBus.fire(AddGardenEvent());
   static void fireMarkersReady(Set<Marker> markers) => _sEventBus.fire(MarkersReadyEvent(markers));
+  static void fireGardenSelected() => _sEventBus.fire(GardenSelectedEvent());
 
   //--
   static void onSwitchTask(OnSwichTaskFunc func) =>
@@ -81,6 +84,9 @@ class AppEvents {
 
   static void onMarkersReady(OnMarkersReadyFunc func) =>
       _sEventBus.on<MarkersReadyEvent>().listen((event) => func(event));
+
+  static void onGardenSelected(OnMarkerSelectedFunc func) =>
+      _sEventBus.on<GardenSelectedEvent>().listen((event) => func(event));
 }
 
 typedef void OnSwichTaskFunc(SwitchStackEvent event);
@@ -90,3 +96,4 @@ typedef void OnCompressPictureFunc(CompressPictureEvent event);
 typedef void OnSaveGardenFunc(SaveGardenEvent event);
 typedef void OnAddGardenFunc(AddGardenEvent event);
 typedef void OnMarkersReadyFunc(MarkersReadyEvent event);
+typedef void OnMarkerSelectedFunc(GardenSelectedEvent event);

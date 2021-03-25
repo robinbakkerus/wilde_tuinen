@@ -61,6 +61,7 @@ class MarkerUtils {
             onPressed: () {
               Navigator.of(context).pop();
               AppEvents.fireSwitchStack(StackType.MAIN, 1);
+              AppEvents.fireGardenSelected();
             },
             child: const Text('Meer ...'),
           ),
@@ -97,6 +98,17 @@ class MarkerUtils {
     g.lat = lat;
     g.lng = lng;
     g.description = descr;
+
+    g.notes.add(_buildNote('Notitie abd'));
+    g.notes.add(_buildNote('Notitie jkhh kh jh kjh '));
+    g.notes.add(_buildNote('Notitie vvvbbb  '));
+    
     return g;
+  }
+
+  Note _buildNote(String note) {
+    Note n = new Note();
+    n.note = note;
+    return n;
   }
 }

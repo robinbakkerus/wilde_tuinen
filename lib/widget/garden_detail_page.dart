@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wilde_tuinen/event/app_events.dart';
 import 'package:wilde_tuinen/data/app_data.dart';
 import 'package:wilde_tuinen/model/garden.dart';
+import 'package:wilde_tuinen/widget/garden_form.dart';
 
 class GardenDetailPage extends StatelessWidget {
   @override
@@ -20,7 +21,17 @@ class _GardenDetailPage extends StatefulWidget {
 //------------------
 
 class _GardenDetailPageState extends State<_GardenDetailPage> {
-  Garden garden = AppData.currentGarden;
+  Garden _garden = AppData.currentGarden;
+
+  _GardenDetailPageState() {
+    AppEvents.onGardenSelected(_onGardenSelected);
+  }
+
+  _onGardenSelected(GardenSelectedEvent event) {
+    setState(() {
+      this._garden = AppData.currentGarden;
+    });
+  }
 
   @override
   void initState() {
@@ -90,16 +101,15 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
   }
 
   Widget _buildAlgemeen() {
-    return Text('Todo');
+    return GardenForm();
   }
-
-  List<String> litems = ["1", "2", "Third", "4"];
 
   Widget _buildNotes() {
     return new ListView.builder(
-        itemCount: litems.length,
+        itemCount: _garden.notes.length,
         itemBuilder: (BuildContext ctxt, int index) {
-          return new Text(litems[index]);
+          Note note = _garden.notes[index];
+          return _buildCard(note);
         });
   }
 
@@ -107,4 +117,19 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
     return Text('Todo');
   }
 
+  Widget _buildCard(Note note) {
+    String msg = 'note.note';
+    return Card(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          const ListTile(
+            leading: Icon(Icons.album, size: 50),
+            title: Text(msg),
+            subtitle: Text('TWICE'),
+          ),
+        ],
+      ),
+    );
+  }
 }

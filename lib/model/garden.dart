@@ -25,9 +25,9 @@ class Garden {
 }
 
 class Note {
-  String? note;
-  String? updatedBy;
-  DateTime? lastupdated;
+  String note = '';
+  String updatedBy = '';
+  DateTime lastupdated = DateTime.now();
 }
 
 class Photo {
