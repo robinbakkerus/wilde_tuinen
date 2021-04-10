@@ -3,6 +3,7 @@ import 'package:wilde_tuinen/event/app_events.dart';
 import 'package:wilde_tuinen/data/app_data.dart';
 import 'package:wilde_tuinen/model/garden.dart';
 import 'package:wilde_tuinen/widget/garden_form.dart';
+import 'package:wilde_tuinen/widget/widget_helper.dart' as wh;
 
 class GardenDetailPage extends StatelessWidget {
   @override
@@ -22,6 +23,9 @@ class _GardenDetailPage extends StatefulWidget {
 
 class _GardenDetailPageState extends State<_GardenDetailPage> {
   Garden _garden = AppData.currentGarden;
+  bool _showAddNote = true;
+
+  final _ctrl1 = TextEditingController();
 
   _GardenDetailPageState() {
     AppEvents.onGardenSelected(_onGardenSelected);
@@ -43,11 +47,6 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
     return new Scaffold(
       appBar: _buildAppBar(context),
       body: _buildBody(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          backgroundColor: Colors.green,
-          onPressed: _addNote(context)),
     );
   }
 
@@ -109,13 +108,54 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
     return GardenForm();
   }
 
+
   Widget _buildNotes() {
-    return new ListView.builder(
-        itemCount: _garden.notes.length,
-        itemBuilder: (BuildContext ctxt, int index) {
-          Note note = _garden.notes[index];
-          return _buildCard(note);
-        });
+    return Column(
+      children: [
+        ListView.builder(
+            shrinkWrap: true,
+            itemCount: _garden.notes.length,
+            itemBuilder: (BuildContext ctxt, int index) {
+              Note note = _garden.notes[index];
+              return _buildCard(note);
+            }),
+        Container(
+          height: 10,
+        ),
+           Container(
+             color: Colors.amberAccent,
+             height: 100,
+             width: 400,
+             child: Row(
+              children: [
+                _notesChilds(),
+              ],
+          ),
+           ),
+      ],
+    );
+  }
+
+  Widget _notesChilds() {
+    if (this._showAddNote) {
+      return wh.roundButton(
+          Text(
+            '+',
+            style: TextStyle(color: Colors.white, fontSize: 24),
+          ),
+          _addNote);
+    } else {
+      return Row(
+          children: [
+              Container(
+                height: 100,
+                width: 250,
+                child:  _noteInputField(),
+              ),
+            wh.roundButton(Icon(Icons.save, size: 24.0), _dummy)
+          ],
+      );
+    }
   }
 
   Widget _buildPhotos() {
@@ -138,38 +178,28 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
     );
   }
 
-  _addNote(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => _buildPopupDialog(context),
+  _addNote() {
+    setState(() {
+      this._showAddNote = !this._showAddNote;
+      print('TODO nu ' + this._showAddNote.toString());
+    });
+  }
+
+  _dummy() {
+    setState(() {
+      this._showAddNote = !this._showAddNote;
+      print('TODO nu ' + this._showAddNote.toString());
+    });
+  }
+
+  Widget _noteInputField() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: _inputField(_ctrl1, 'Note', 'Geef Note', 5),
     );
   }
 
-  Widget _buildPopupDialog(BuildContext context) {
-    return new AlertDialog(
-      title: Text('Add note'),
-      content: new Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              AppEvents.fireSwitchStack(StackType.MAIN, 1);
-              AppEvents.fireGardenSelected();
-            },
-            child: const Text('Meer ...'),
-          ),
-        ],
-      ),
-      actions: <Widget>[
-        ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: const Text('Sluit'),
-        ),
-      ],
-    );
+  Widget _inputField(TextEditingController ctrl, String label, String errmsg, int maxLines) {
+    return wh.buildIinputField(ctrl, label, errmsg, maxLines);
   }
 }

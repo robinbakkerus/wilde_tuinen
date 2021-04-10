@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wilde_tuinen/event/app_events.dart';
 import 'package:wilde_tuinen/data/app_data.dart';
+import 'package:wilde_tuinen/widget/widget_helper.dart' as wh;
 
 class GardenForm extends StatefulWidget {
   GardenForm();
@@ -12,7 +13,6 @@ class GardenForm extends StatefulWidget {
 }
 
 class _GardenFormState extends State<GardenForm> {
-  
   _GardenFormState() {
     AppEvents.onGardenSelected(_onGardenSelected);
   }
@@ -30,7 +30,7 @@ class _GardenFormState extends State<GardenForm> {
     setState(() {
       var garden = AppData.currentGarden;
       _ctrl1.text = garden.name;
-      _ctrl1.text = garden.description;
+      _ctrl2.text = garden.description;
     });
   }
 
@@ -63,45 +63,18 @@ class _GardenFormState extends State<GardenForm> {
   Widget _nameField() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: TextFormField(
-        controller: _ctrl1,
-        decoration: InputDecoration(
-            labelText: 'Naam.',
-            hintText: "Enter text here",
-            contentPadding: EdgeInsets.all(5.0),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            )),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Geef naam';
-          }
-          return null;
-        },
-      ),
+      child: _inputField(_ctrl1, 'Naam', 'Geef naam', 1),
     );
   }
 
-Widget _descriptionField() {
+  Widget _descriptionField() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: TextFormField(
-        controller: _ctrl1,
-        maxLines: 10,
-        decoration: InputDecoration(
-            labelText: 'Omschrijving.',
-            hintText: "Enter text here",
-            contentPadding: EdgeInsets.all(10.0),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            )),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Geef omschrijving';
-          }
-          return null;
-        },
-      ),
+      child: _inputField(_ctrl2, 'Omschrijving', 'Geef Omschrijving', 5),
     );
+  }
+
+  Widget _inputField(TextEditingController ctrl, String label, String errmsg, int maxLines) {
+    return wh.buildIinputField(ctrl, label, errmsg, maxLines);
   }
 }
