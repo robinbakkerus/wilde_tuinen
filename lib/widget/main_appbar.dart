@@ -13,10 +13,7 @@ class Choice {
 /// see enum in StackIndex
 const List<Choice> choices = const <Choice>[
   const Choice(title: '/home', icon: Icons.home, stackIndex: STACK_HOME),
-  const Choice(
-      title: '/add_vrijwilliger', icon: Icons.input, stackIndex: STACK_ADD),
-  const Choice(
-      title: '/admin', icon: Icons.access_alarm, stackIndex: STACK_ADMIN),
+  const Choice(title: '/admin', icon: Icons.access_alarm, stackIndex: STACK_ADMIN),
 ];
 
 AppBar buildMainAppBar(BuildContext context, int disableButton) {
@@ -43,7 +40,6 @@ AppBar buildMainAppBar(BuildContext context, int disableButton) {
     actions: <Widget>[
       _buildButton(0),
       _buildButton(1),
-      _buildButton(2),
       PopupMenuButton<Choice>(
         onSelected: _select,
         itemBuilder: (BuildContext context) {

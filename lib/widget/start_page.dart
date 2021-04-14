@@ -44,22 +44,35 @@ class _StartPageState extends State<_StartPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: buildMainAppBar(context, -1),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _addGarden();
+          },
+          child: Icon(Icons.add),
+          backgroundColor: Colors.blue,
+        ),
         body: IndexedStack(
           index: _stackIndex,
           children: <Widget>[
             HomePage(title: 'Wilde tuinen'), // 0
+            AdminPage(), // 1
             TakePictureScreen(), // 2
             DisplayPhotoPage(), // 3
-            AdminPage(), // 4
+            
           ],
         ));
   }
 
   void _onSwitchStack(SwitchStackEvent event) {
-    if (event.type == StackType.MAIN) {
+    if (event.type == StackType.START_PAGE) {
       setState(() {
         this._stackIndex = event.stackIndex;
       });
     }
+  }
+
+  void _addGarden() {
+    AppEvents.fireTakePicture();
   }
 }

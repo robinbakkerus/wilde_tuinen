@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
+import 'package:wilde_tuinen/data/app_data.dart';
 import 'package:wilde_tuinen/widget/start_page.dart';
 import 'package:wilde_tuinen/widget/garden_detail_page.dart';
 import 'package:wilde_tuinen/event/app_events.dart';
+import 'package:wilde_tuinen/controller/app_controller.dart';
 
 void main() async {
   // WidgetsFlutterBinding.ensureInitialized();
@@ -33,6 +36,7 @@ class _AppState extends State<_App> {
   int _stackIndex = 0;
 
   _AppState() {
+    AppController();
     AppEvents.onSwitchTask(_onSwitchTask);
   }
 
