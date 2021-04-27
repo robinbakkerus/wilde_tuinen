@@ -1,6 +1,5 @@
 import 'package:wilde_tuinen/event/app_events.dart';
 import 'package:wilde_tuinen/model/garden.dart';
-import 'package:wilde_tuinen/util/image_utils.dart';
 import 'package:wilde_tuinen/data/app_data.dart';
 import 'package:wilde_tuinen/service/firestore_service.dart';
 
@@ -13,28 +12,20 @@ class AppController {
 
   AppController._internal() {
     AppEvents.onTakePicture(_onTakePicture);
-    AppEvents.onCompressPicture(_onCompressPicture);
     AppEvents.onSaveGarden(_onSaveGarden);
     AppEvents.onAddGarden(_onAddGarden);
   }
 
   void _onTakePicture(TakePictureEvent event) {
-    AppEvents.fireSwitchStack(StackType.START_PAGE, STACK_TAKE_PICTURE);
-  }
-
-  void _onCompressPicture(CompressPictureEvent event) {
-    String compressedPath = ImageUtils.compress(event.imagePath);
-    // AppData.currentGarden.fotoBase64 = ImageUtils.imageAsBase64(compressedPath);
-    AppEvents.fireShowPicture(compressedPath);
-    AppEvents.fireSwitchStack(StackType.START_PAGE, STACK_SHOW_PICTURE);
+    AppEvents.fireSwitchStack(StackType.MAIN, STACK_TAKE_PICTURE);
   }
 
   void _onSaveGarden(SaveGardenEvent event) {
     AppData.currentGarden.lastupdated = DateTime.now();
     AppData.currentGarden.updatedBy = ""; //todo
-    FirestoreService()..saveVolunteer(AppData.currentGarden);
+    FirestoreService()..saveGarden(AppData.currentGarden);
     //Todo geef okay msg
-    AppEvents.fireSwitchStack(StackType.START_PAGE, STACK_HOME.hashCode);
+    AppEvents.fireSwitchStack(StackType.MAIN, STACK_HOME);
   }
 
   void _onAddGarden(AddGardenEvent event) {

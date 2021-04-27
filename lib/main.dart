@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
-import 'package:wilde_tuinen/data/app_data.dart';
 import 'package:wilde_tuinen/widget/start_page.dart';
 import 'package:wilde_tuinen/widget/garden_detail_page.dart';
 import 'package:wilde_tuinen/event/app_events.dart';
 import 'package:wilde_tuinen/controller/app_controller.dart';
-
+import 'package:firebase_core/firebase_core.dart';
+import 'package:wilde_tuinen/widget/make_photo_page.dart';
+import 'package:wilde_tuinen/widget/admin.dart';
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // final cameras = await availableCameras();
-  // final firstCamera = cameras.first;
-  // Constants.camera = firstCamera;
+  WidgetsFlutterBinding.ensureInitialized();
+  final fbApp = await Firebase.initializeApp();
+  print('created : ' + fbApp.toString());
 
   runApp(App());
 }
@@ -62,7 +61,12 @@ class _AppState extends State<_App> {
       ),
       home: IndexedStack(
         index: _stackIndex,
-        children: <Widget>[StartPage(), GardenDetailPage()],
+        children: <Widget>[
+          StartPage(),  // 0 STACK_HOME
+          GardenDetailPage(), // 1 STACK_ADD
+          TakePhotoPage(title: 'Foto'), // 2 STACK_TAKE_PICTURE
+          AdminPage(), // 3 STACK_ADMIN
+          ],
       ),
     );
   }

@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wilde_tuinen/widget/main_appbar.dart';
 // import '../data/constants.dart';
 import 'package:wilde_tuinen/widget/home_page.dart';
-import 'package:wilde_tuinen/widget/make_photo_page.dart';
-import 'package:wilde_tuinen/widget/admin.dart';
 import 'package:wilde_tuinen/event/app_events.dart';
-import 'package:wilde_tuinen/widget/display_photo_page.dart';
 
 class StartPage extends StatelessWidget {
   @override
@@ -28,13 +25,9 @@ class _StartPage extends StatefulWidget {
   _StartPageState createState() => new _StartPageState();
 }
 
+//-----------------------------------------
 class _StartPageState extends State<_StartPage> {
-  int _stackIndex = 0;
-
-  _StartPageState() {
-    AppEvents.onSwitchTask(_onSwitchStack);
-  }
-
+  
   @override
   void initState() {
     super.initState();
@@ -46,32 +39,18 @@ class _StartPageState extends State<_StartPage> {
         appBar: buildMainAppBar(context, -1),
         floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _addGarden();
-          },
-          child: Icon(Icons.add),
-          backgroundColor: Colors.blue,
-        ),
-        body: IndexedStack(
-          index: _stackIndex,
-          children: <Widget>[
+                onPressed: () {
+                  _addGarden();
+                },
+                child: Icon(Icons.add),
+                backgroundColor: Colors.blue,
+              ),
+        body: 
             HomePage(title: 'Wilde tuinen'), // 0
-            AdminPage(), // 1
-            TakePictureScreen(), // 2
-            DisplayPhotoPage(), // 3
-            
-          ],
-        ));
+        );
   }
 
-  void _onSwitchStack(SwitchStackEvent event) {
-    if (event.type == StackType.START_PAGE) {
-      setState(() {
-        this._stackIndex = event.stackIndex;
-      });
-    }
-  }
-
+  
   void _addGarden() {
     AppEvents.fireTakePicture();
   }

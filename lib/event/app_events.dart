@@ -1,5 +1,6 @@
 import 'package:event_bus/event_bus.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:wilde_tuinen/model/garden.dart';
 
 enum StackType {
   MAIN,
@@ -17,19 +18,11 @@ class SwitchStackEvent {
 
 class TakePictureEvent {}
 
-class CompressPictureEvent {
-  String imagePath;
+class SaveGardenEvent {
+  Garden garden;
 
-  CompressPictureEvent(this.imagePath);
+  SaveGardenEvent(this.garden);
 }
-
-class ShowPictureEvent {
-  String imagePath;
-
-  ShowPictureEvent(this.imagePath);
-}
-
-class SaveGardenEvent {}
 
 class AddGardenEvent {}
 
@@ -54,11 +47,7 @@ class AppEvents {
   static void fireSwitchStack(StackType type, int index) =>
       _sEventBus.fire(new SwitchStackEvent(type, index));
   static void fireTakePicture() => _sEventBus.fire(new TakePictureEvent());
-  static void fireShowPicture(String imagePath) =>
-      _sEventBus.fire(new ShowPictureEvent(imagePath));
-  static void fireCompressPicture(String imagePath) =>
-      _sEventBus.fire(new CompressPictureEvent(imagePath));
-  static void fireSaveGarden() => _sEventBus.fire(SaveGardenEvent());
+  static void fireSaveGarden(Garden garden) => _sEventBus.fire(SaveGardenEvent(garden));
   static void fireAddGarden() => _sEventBus.fire(AddGardenEvent());
   static void fireMarkersReady(Set<Marker> markers) => _sEventBus.fire(MarkersReadyEvent(markers));
   static void fireGardenSelected() => _sEventBus.fire(GardenSelectedEvent());
@@ -70,13 +59,7 @@ class AppEvents {
   static void onTakePicture(OnTakePictureFunc func) =>
       _sEventBus.on<TakePictureEvent>().listen((event) => func(event));
 
-  static void onShowPicture(OnShowPictureFunc func) =>
-      _sEventBus.on<ShowPictureEvent>().listen((event) => func(event));
-
-  static void onCompressPicture(OnCompressPictureFunc func) =>
-      _sEventBus.on<CompressPictureEvent>().listen((event) => func(event));
-
-  static void onSaveGarden(OnSaveGardenFunc func) =>
+    static void onSaveGarden(OnSaveGardenFunc func) =>
       _sEventBus.on<SaveGardenEvent>().listen((event) => func(event));
 
   static void onAddGarden(OnAddGardenFunc func) =>
@@ -91,8 +74,6 @@ class AppEvents {
 
 typedef void OnSwichTaskFunc(SwitchStackEvent event);
 typedef void OnTakePictureFunc(TakePictureEvent event);
-typedef void OnShowPictureFunc(ShowPictureEvent event);
-typedef void OnCompressPictureFunc(CompressPictureEvent event);
 typedef void OnSaveGardenFunc(SaveGardenEvent event);
 typedef void OnAddGardenFunc(AddGardenEvent event);
 typedef void OnMarkersReadyFunc(MarkersReadyEvent event);

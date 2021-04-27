@@ -10,8 +10,7 @@ class Constants {
 const int STACK_HOME = 0;
 const int STACK_ADD = 1;
 const int STACK_TAKE_PICTURE = 2;
-const int STACK_SHOW_PICTURE = 3;
-const int STACK_ADMIN = 4;
+const int STACK_ADMIN = 3;
 
 class AppData {
   static Garden currentGarden = Garden();

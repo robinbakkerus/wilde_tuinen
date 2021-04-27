@@ -10,18 +10,17 @@ class Garden {
   List<Note> notes = [];
   List<Photo> photos = [];
 
-//   Map<String, dynamic> toJson() => {
-//         'id': id,
-//         'name': name,
-//         'lat' : lat,
-//         'lng': lng,
-//         'description': description,
-//         'fotoBase64': fotoBase64,
-//         'updatedBy': updatedBy,
-//         'lastupdated': lastupdated,
-//         'notes' 
-//       };
-// }
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'lat' : lat,
+        'lng': lng,
+        'description': description,
+        'fotoBase64': fotoBase64,
+        'updatedBy': updatedBy,
+        'lastupdated': lastupdated
+        // 'notes' 
+      };
 }
 
 class Note {
