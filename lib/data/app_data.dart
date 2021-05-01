@@ -13,7 +13,15 @@ const int STACK_TAKE_PICTURE = 2;
 const int STACK_ADMIN = 3;
 
 class AppData {
-  static Garden currentGarden = Garden();
+  static final AppData _singleton = AppData._internal();
 
-  static prepareGarden() => currentGarden = Garden();
+  factory AppData() {
+    return _singleton;
+  }
+
+  AppData._internal();
+
+  Garden currentGarden = Garden();
+  Garden newGarden = Garden();
+
 }

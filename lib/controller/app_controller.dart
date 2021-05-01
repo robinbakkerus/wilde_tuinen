@@ -21,15 +21,16 @@ class AppController {
   }
 
   void _onSaveGarden(SaveGardenEvent event) {
-    AppData.currentGarden.lastupdated = DateTime.now();
-    AppData.currentGarden.updatedBy = ""; //todo
-    FirestoreService()..saveGarden(AppData.currentGarden);
+    var g = event.garden;
+    g.lastupdated = DateTime.now();
+    g.updatedBy = ""; //todo
+    FirestoreService()..saveGarden(g);
     //Todo geef okay msg
     AppEvents.fireSwitchStack(StackType.MAIN, STACK_HOME);
   }
 
   void _onAddGarden(AddGardenEvent event) {
-    AppData.currentGarden = Garden();
+    AppData().currentGarden = Garden();
     AppEvents.fireSwitchStack(StackType.START_PAGE, STACK_ADD);
   }
 }

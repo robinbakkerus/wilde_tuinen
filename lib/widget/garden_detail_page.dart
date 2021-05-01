@@ -22,7 +22,7 @@ class _GardenDetailPage extends StatefulWidget {
 //------------------
 
 class _GardenDetailPageState extends State<_GardenDetailPage> {
-  Garden _garden = AppData.currentGarden;
+  Garden _garden = AppData().currentGarden;
   bool _showAddNote = true;
 
   final _ctrl1 = TextEditingController();
@@ -33,7 +33,7 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
 
   _onGardenSelected(GardenSelectedEvent event) {
     setState(() {
-      this._garden = AppData.currentGarden;
+      this._garden = AppData().currentGarden;
     });
   }
 
@@ -53,7 +53,7 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
   AppBar _buildAppBar(BuildContext context) {
     return new AppBar(
       leading: _buildAction(),
-      title: Text(AppData.currentGarden.name),
+      title: Text(AppData().currentGarden.name),
     );
   }
 

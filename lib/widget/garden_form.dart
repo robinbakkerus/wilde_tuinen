@@ -28,7 +28,7 @@ class _GardenFormState extends State<GardenForm> {
 
   _onGardenSelected(GardenSelectedEvent event) {
     setState(() {
-      var garden = AppData.currentGarden;
+      var garden = AppData().currentGarden;
       _ctrl1.text = garden.name;
       _ctrl2.text = garden.description;
     });

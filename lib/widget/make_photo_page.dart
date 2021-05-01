@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:camera_camera/camera_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:wilde_tuinen/event/app_events.dart';
-import 'package:wilde_tuinen/model/garden.dart';
+import 'package:wilde_tuinen/data/app_data.dart';
 import 'package:wilde_tuinen/util/image_utils.dart';
 import 'package:wilde_tuinen/widget/widget_helper.dart' as wh;
 
@@ -87,7 +87,8 @@ class _TakePhotoPageState extends State<TakePhotoPage> {
   _onSubmit() {
     final imagePath = ImageUtils.compressFile(_photos[0]);
     final obj = ImageUtils.imageAsBase64(imagePath);
-    final garden = Garden();
+
+    var garden = AppData().newGarden;
     garden.name = _ctrl.text;
     garden.fotoBase64 = obj;
 

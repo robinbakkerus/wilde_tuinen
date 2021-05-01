@@ -41,7 +41,7 @@ class MarkerUtils {
     Garden garden =
         this._gardens.firstWhere((g) => g.id.toString() == markId.value);
 
-    AppData.currentGarden = garden;
+    AppData().currentGarden = garden;
     
     showDialog(
       context: context,
@@ -93,7 +93,7 @@ class MarkerUtils {
   Garden _buildGarden(
       int id, String name, double lat, double lng, String descr) {
     Garden g = new Garden();
-    g.id = id;
+    g.id = id.toString();
     g.name = name;
     g.lat = lat;
     g.lng = lng;

@@ -1,5 +1,5 @@
 class Garden {
-  int id = 0;
+  String id = '';
   String name = '';
   late double lat;
   late double lng;
@@ -13,13 +13,18 @@ class Garden {
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
-        'lat' : lat,
+        'lat': lat,
         'lng': lng,
         'description': description,
         'fotoBase64': fotoBase64,
         'updatedBy': updatedBy,
         'lastupdated': lastupdated
-        // 'notes' 
+        // 'notes'
+      };
+
+  Map<String, dynamic> toJson2() => {
+        'id': id,
+        'name': name,
       };
 }
 
@@ -34,4 +39,3 @@ class Photo {
   String? updatedBy;
   DateTime? lastupdated;
 }
-

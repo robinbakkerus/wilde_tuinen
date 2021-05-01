@@ -10,7 +10,7 @@ class StartPage extends StatelessWidget {
     return new MaterialApp(
       title: 'Tuinen in Nuenen',
       theme: new ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lightGreen,
       ),
       home: _StartPage(title: 'Tuinen in Nuenen'),
     );
@@ -43,7 +43,7 @@ class _StartPageState extends State<_StartPage> {
                   _addGarden();
                 },
                 child: Icon(Icons.add),
-                backgroundColor: Colors.blue,
+                backgroundColor: Colors.lightGreen,
               ),
         body: 
             HomePage(title: 'Wilde tuinen'), // 0

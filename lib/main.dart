@@ -20,7 +20,7 @@ class App extends StatelessWidget {
     return new MaterialApp(
         title: 'Tuinen',
         theme: new ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.lightGreen,
         ),
         home: _App());
   }
