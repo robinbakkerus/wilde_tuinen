@@ -93,7 +93,7 @@ class MarkerUtils {
   Garden _buildGarden(
       int id, String name, double lat, double lng, String descr) {
     Garden g = new Garden();
-    g.id = id.toString();
+    g.id = id;
     g.name = name;
     g.lat = lat;
     g.lng = lng;

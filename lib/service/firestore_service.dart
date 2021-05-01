@@ -20,12 +20,10 @@ class FirestoreService {
 
       garden.lastupdated = DateTime.now();
       garden.updatedBy = 'todo';
-      garden.id = DateTime.now().millisecondsSinceEpoch.toString();
+      garden.id = DateTime.now().millisecondsSinceEpoch;
       garden.name = 'test';
-      // String json = jsonEncode(garden, toEncodable: myEncode);
-      var json = garden.toJson2();
-      // var map = jsonDecode(json);
-      log('json = ' + json.toString());
+      var json = garden.toJson();
+//      log('json = ' + json.toString());
 
       gardens
           .add(json)

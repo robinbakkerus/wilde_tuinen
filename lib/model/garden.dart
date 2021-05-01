@@ -1,5 +1,5 @@
 class Garden {
-  String id = '';
+  int id = 0;
   String name = '';
   late double lat;
   late double lng;
@@ -20,11 +20,6 @@ class Garden {
         'updatedBy': updatedBy,
         'lastupdated': lastupdated
         // 'notes'
-      };
-
-  Map<String, dynamic> toJson2() => {
-        'id': id,
-        'name': name,
       };
 }
 
