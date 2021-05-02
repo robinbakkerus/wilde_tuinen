@@ -61,7 +61,7 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
     return new IconButton(
       icon: Icon(Icons.west),
       onPressed: () {
-        AppEvents.fireSwitchStack(StackType.MAIN, 0);
+        AppEvents.fireSwitchStack(STACK_HOME);
       },
     );
   }

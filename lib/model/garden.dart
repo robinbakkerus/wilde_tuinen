@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'garden.g.dart';
+
+@JsonSerializable()
 class Garden {
   int id = 0;
   String name = '';
@@ -10,27 +15,29 @@ class Garden {
   List<Note> notes = [];
   List<Photo> photos = [];
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'lat': lat,
-        'lng': lng,
-        'description': description,
-        'fotoBase64': fotoBase64,
-        'updatedBy': updatedBy,
-        'lastupdated': lastupdated
-        // 'notes'
-      };
+  Garden();
+  Map<String, dynamic> toJson() => _$GardenToJson(this);
+  factory Garden.fromJson(Map<String, dynamic> map) => _$GardenFromJson(map);
 }
 
+@JsonSerializable()
 class Note {
   String note = '';
   String updatedBy = '';
-  DateTime lastupdated = DateTime.now();
+  DateTime? lastupdated;
+
+  Note();
+  Map<String, dynamic> toJson() => _$NoteToJson(this);
+  factory Note.fromJson(Map<String, dynamic> map) => _$NoteFromJson(map);
 }
 
+@JsonSerializable()
 class Photo {
   String? fotoBase64;
   String? updatedBy;
   DateTime? lastupdated;
+
+  Photo();
+  Map<String, dynamic> toJson() => _$PhotoToJson(this);
+  factory Photo.fromJson(Map<String, dynamic> map) => _$PhotoFromJson(map);
 }

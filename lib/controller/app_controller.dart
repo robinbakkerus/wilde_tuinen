@@ -1,5 +1,4 @@
 import 'package:wilde_tuinen/event/app_events.dart';
-import 'package:wilde_tuinen/model/garden.dart';
 import 'package:wilde_tuinen/data/app_data.dart';
 import 'package:wilde_tuinen/service/firestore_service.dart';
 
@@ -11,13 +10,9 @@ class AppController {
   }
 
   AppController._internal() {
-    AppEvents.onTakePicture(_onTakePicture);
     AppEvents.onSaveGarden(_onSaveGarden);
-    AppEvents.onAddGarden(_onAddGarden);
-  }
-
-  void _onTakePicture(TakePictureEvent event) {
-    AppEvents.fireSwitchStack(StackType.MAIN, STACK_TAKE_PICTURE);
+    // AppEvents.onRetrieveGardens(_onRetrieveGardens);
+    FirestoreService()..retrieveAllGardens();
   }
 
   void _onSaveGarden(SaveGardenEvent event) {
@@ -26,11 +21,10 @@ class AppController {
     g.updatedBy = ""; //todo
     FirestoreService()..saveGarden(g);
     //Todo geef okay msg
-    AppEvents.fireSwitchStack(StackType.MAIN, STACK_HOME);
+    AppEvents.fireSwitchStack(STACK_HOME);
   }
 
-  void _onAddGarden(AddGardenEvent event) {
-    AppData().currentGarden = Garden();
-    AppEvents.fireSwitchStack(StackType.START_PAGE, STACK_ADD);
-  }
+  // void _onRetrieveGardens(RetrieveGardensEvent event) {
+    // FirestoreService()..retrieveAllGardens();
+  // }
 }

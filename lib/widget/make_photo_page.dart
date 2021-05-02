@@ -16,26 +16,21 @@ class TakePhotoPage extends StatefulWidget {
   _TakePhotoPageState createState() => _TakePhotoPageState();
 }
 
+//---------------------------------------------------------------------
 class _TakePhotoPageState extends State<TakePhotoPage> {
-  bool _hideBtn = false;
   final _photos = <File>[];
-  final _ctrl = TextEditingController();
+  final _txtCtrlName = TextEditingController();
+  final _txtCtrlDescr = TextEditingController();
   final _snackBar = SnackBar(content: Text('Yay! A SnackBar!'));
+  var _state = PS.INIT;
 
-  void _openCamera() {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (_) => CameraCamera(
-                  onFile: (file) {
-                    _photos.clear();
-                    _photos.add(file);
-                    Navigator.pop(context);
-                    setState(() {
-                      this._hideBtn = true;
-                    });
-                  },
-                )));
+  @override
+  void initState() {
+    super.initState();
+
+    // Start listening to changes.
+    _txtCtrlDescr.addListener(_onTextChanged);
+    _txtCtrlDescr.addListener(_onTextChanged);
   }
 
   @override
@@ -49,7 +44,7 @@ class _TakePhotoPageState extends State<TakePhotoPage> {
       body: Column(
         children: [
           Container(
-            height: size.width * 0.7,
+            height: size.width * 0.5,
             width: size.width,
             child: _photos.length == 0
                 ? null
@@ -58,29 +53,115 @@ class _TakePhotoPageState extends State<TakePhotoPage> {
                     fit: BoxFit.cover,
                   ),
           ),
-          Container(
-            height: 10,
+          _verSpace(),
+          if (_state == PS.INIT) _takePhotoButton(size),
+          if (_state == PS.PHOTO_OKAY) _nameInputField(size),
+          if (_state == PS.READY_TO_SAVE) _saveButton(size),
+          if (_state == PS.PHOTO_READY) _askPhotoOk(size),
+        ],
+      ),
+    );
+  }
+
+  Widget _verSpace() {
+    return Container(
+      height: 10,
+    );
+  }
+
+  Widget _horSpace(double w) {
+    return Container(
+      width: w,
+    );
+  }
+
+  Widget _askPhotoOk(Size size) {
+    return Container(
+      color: Colors.white,
+      child: Row(
+        children: [
+          _horSpace(20.0),
+          Text('Is foto okay? '),
+          _horSpace(10),
+          ElevatedButton(
+            onPressed: _onPhotoOk,
+            child: Text('Ja'),
           ),
-          Container(
-              width: size.width,
-              color: Colors.white,
-              child: wh.buildIinputField(_ctrl, 'Naam', 'errmsg', 1)),
-          Container(
-            width: size.width,
-            color: Colors.white,
-            child: ElevatedButton(
-              onPressed: _onSubmit,
-              child: Text('Submit'),
-            ),
+          _horSpace(5.0),
+          ElevatedButton(
+            onPressed: _onPhotoNotOk,
+            child: Text('Nee'),
           ),
         ],
       ),
-      floatingActionButton: _hideBtn
-          ? null
-          : FloatingActionButton(
-              onPressed: _openCamera,
-              child: Icon(Icons.camera_alt),
-            ),
+    );
+  }
+
+  _onPhotoOk() {
+    setState(() {
+      this._state = PS.PHOTO_OKAY;
+    });
+  }
+
+  _onPhotoNotOk() {
+    setState(() {
+      this._state = PS.INIT;
+    });
+  }
+
+  Widget _nameInputField(Size size) {
+    return Container(
+      width: size.width,
+      color: Colors.white,
+      child: Column(
+        children: [
+          wh.buildIinputField(_txtCtrlName, 'Naam', 'errmsg', 1),
+          wh.buildIinputField(_txtCtrlDescr, 'Omschrijving', 'errmsg', 2),
+          _saveButton(size),
+        ],
+      ),
+    );
+  }
+
+  Widget _saveButton(Size size) {
+    return Container(
+      width: size.width,
+      color: Colors.white,
+      child: ElevatedButton(
+        onPressed: _isSubmitDisabled() ? null : _onSubmit,
+        child: Text('Sla op'),
+      ),
+    );
+  }
+
+  bool _isSubmitDisabled() {
+    return _txtCtrlDescr.text == "" || _txtCtrlName.text == "";
+  }
+
+  void _openCamera() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (_) => CameraCamera(
+                  onFile: (file) {
+                    _photos.clear();
+                    _photos.add(file);
+                    Navigator.pop(context);
+                    setState(() {
+                      this._state = PS.PHOTO_READY;
+                    });
+                  },
+                )));
+  }
+
+  Container _takePhotoButton(Size size) {
+    return Container(
+      width: size.width,
+      color: Colors.white,
+      child: ElevatedButton(
+        onPressed: _openCamera,
+        child: Text('Maak foto'),
+      ),
     );
   }
 
@@ -89,10 +170,24 @@ class _TakePhotoPageState extends State<TakePhotoPage> {
     final obj = ImageUtils.imageAsBase64(imagePath);
 
     var garden = AppData().newGarden;
-    garden.name = _ctrl.text;
+    garden.name = _txtCtrlName.text;
+    garden.description = _txtCtrlDescr.text;
     garden.fotoBase64 = obj;
 
     ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+
     AppEvents.fireSaveGarden(garden);
+
+    setState(() {
+      this._txtCtrlName.text = '';
+      this._txtCtrlDescr.text = '';
+      this._state = PS.INIT;
+    });
+  }
+
+  _onTextChanged() {
+    setState(() {});
   }
 }
+
+enum PS { INIT, PHOTO_READY, PHOTO_OKAY, READY_TO_SAVE, PHOTO_SAVED }

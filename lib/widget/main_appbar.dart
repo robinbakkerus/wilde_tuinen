@@ -19,7 +19,7 @@ const List<Choice> choices = const <Choice>[
 AppBar buildMainAppBar(BuildContext context, int disableButton) {
   
   void _select(Choice choice) {
-    AppEvents.fireSwitchStack(StackType.START_PAGE, choice.stackIndex);
+    AppEvents.fireSwitchStack(choice.stackIndex);
   }
 
   bool _isButtonDisabled(int n) => n == disableButton;

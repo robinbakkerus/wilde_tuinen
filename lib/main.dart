@@ -6,6 +6,7 @@ import 'package:wilde_tuinen/controller/app_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:wilde_tuinen/widget/make_photo_page.dart';
 import 'package:wilde_tuinen/widget/admin.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final fbApp = await Firebase.initializeApp();
@@ -40,11 +41,9 @@ class _AppState extends State<_App> {
   }
 
   _onSwitchTask(SwitchStackEvent event) {
-    if (event.type == StackType.MAIN) {
-      setState(() {
-        this._stackIndex = event.stackIndex;
-      });
-    }
+    setState(() {
+      this._stackIndex = event.stackIndex;
+    });
   }
 
   @override
@@ -62,11 +61,11 @@ class _AppState extends State<_App> {
       home: IndexedStack(
         index: _stackIndex,
         children: <Widget>[
-          StartPage(),  // 0 STACK_HOME
-          GardenDetailPage(), // 1 STACK_ADD
+          StartPage(), // 0 STACK_HOME
+          GardenDetailPage(), // 1 STACK_DETAIL_PAGE
           TakePhotoPage(title: 'Foto'), // 2 STACK_TAKE_PICTURE
           AdminPage(), // 3 STACK_ADMIN
-          ],
+        ],
       ),
     );
   }

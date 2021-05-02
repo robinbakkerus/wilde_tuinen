@@ -15,10 +15,12 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => new _HomePageState();
 }
 
+//--------------------------------------------------------------
 class _HomePageState extends State<HomePage> {
   _HomePageState() {
     _mu = MarkerUtils();
-    AppEvents.onMarkersReady(this._onMarkersReady);
+    // AppEvents.onMarkersReady(this._onMarkersReady);
+    AppEvents.onGardensRetrieved(_onGardensRetrieved);
   }
 
   late MarkerUtils _mu;
@@ -33,6 +35,13 @@ class _HomePageState extends State<HomePage> {
 
   final LatLng _center = const LatLng(0.0, 0.677433);
   double _zoom = 2.0;
+
+  _onGardensRetrieved(GardensRetrievedEvent event) {
+    _buildMarkers(context);
+    setState(() {
+      _zoom = 10;
+    });
+  }
 
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
@@ -102,11 +111,11 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void _onMarkersReady(MarkersReadyEvent event) {
-    setState(() {
-      _zoom = 10;
-    });
-  }
+  // void _onMarkersReady(MarkersReadyEvent event) {
+  //   setState(() {
+  //     _zoom = 10;
+  //   });
+  // }
 
   _buildMarkers(BuildContext context) {
     return _mu.buildMarkers(context);

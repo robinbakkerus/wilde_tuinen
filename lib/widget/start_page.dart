@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wilde_tuinen/data/app_data.dart';
 import 'package:wilde_tuinen/widget/main_appbar.dart';
 // import '../data/constants.dart';
 import 'package:wilde_tuinen/widget/home_page.dart';
@@ -52,6 +53,6 @@ class _StartPageState extends State<_StartPage> {
 
   
   void _addGarden() {
-    AppEvents.fireTakePicture();
+    AppEvents.fireSwitchStack(STACK_TAKE_PICTURE);
   }
 }

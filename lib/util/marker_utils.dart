@@ -9,6 +9,7 @@ import 'package:wilde_tuinen/data/app_data.dart';
 class MarkerUtils {
   MarkerUtils() {
     AppEvents.fireMarkersReady(_markers);
+    
   }
 
   Set<Marker> getMarkers() => _markers;
@@ -17,8 +18,10 @@ class MarkerUtils {
   Set<Marker> _markers = <Marker>{};
   MarkerId? selectedMarker;
 
+
+
   Set<Marker> buildMarkers(BuildContext context) {
-    this._gardens = _retrieveGardens();
+    this._gardens = AppData().gardens;
 
     this._gardens.forEach((g) {
       final markerId = MarkerId(g.id.toString());
@@ -60,7 +63,7 @@ class MarkerUtils {
           ElevatedButton(
             onPressed: () {
               Navigator.of(context).pop();
-              AppEvents.fireSwitchStack(StackType.MAIN, 1);
+              AppEvents.fireSwitchStack(STACK_DETAIL_PAGE);
               AppEvents.fireGardenSelected();
             },
             child: const Text('Meer ...'),

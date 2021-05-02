@@ -1,7 +1,8 @@
-// import 'dart:convert';
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wilde_tuinen/data/app_data.dart';
 import 'package:wilde_tuinen/model/garden.dart';
+import 'package:wilde_tuinen/event/app_events.dart';
 
 class FirestoreService {
   static final FirestoreService _singleton = new FirestoreService._internal();
@@ -13,7 +14,6 @@ class FirestoreService {
   FirestoreService._internal();
 
   Future<void> saveGarden(Garden garden) async {
-  
     try {
       CollectionReference gardens =
           FirebaseFirestore.instance.collection('wild-gardens');
@@ -21,9 +21,7 @@ class FirestoreService {
       garden.lastupdated = DateTime.now();
       garden.updatedBy = 'todo';
       garden.id = DateTime.now().millisecondsSinceEpoch;
-      garden.name = 'test';
       var json = garden.toJson();
-//      log('json = ' + json.toString());
 
       gardens
           .add(json)
@@ -34,10 +32,19 @@ class FirestoreService {
     }
   }
 
-  dynamic myEncode(dynamic item) {
-    if (item is DateTime) {
-      return item.toIso8601String();
-    }
-    return item;
+  void retrieveAllGardens() {
+    FirebaseFirestore.instance
+        .collection('wild-gardens')
+        .get()
+        .then((querySnapshot) => _mapSnapshot(querySnapshot));
+  }
+
+  _mapSnapshot(QuerySnapshot snapshot) {
+    AppData().gardens.clear();
+
+     snapshot.docs.forEach((doc) =>
+                  AppData().gardens.add(Garden.fromJson(doc.data() as Map<String, dynamic>)));
+      
+    AppEvents.fireGardensRetrieved();
   }
 }
