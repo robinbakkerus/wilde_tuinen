@@ -21,7 +21,9 @@ class AppController {
     g.updatedBy = ""; //todo
     FirestoreService()..saveGarden(g);
     //Todo geef okay msg
+    AppData().gardens.add(AppData().newGarden);
     AppEvents.fireSwitchStack(STACK_HOME);
+    AppEvents.fireGardensRetrieved();
   }
 
   // void _onRetrieveGardens(RetrieveGardensEvent event) {

@@ -96,7 +96,7 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
               child: Text('Notes'),
             ),
             Tab(
-              child: Text('Fotos'),
+              child: _photosTab(),
             ),
           ],
         ),
@@ -104,10 +104,33 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
     );
   }
 
+  Widget _notesTab() {
+    return ListView.builder(
+        padding: const EdgeInsets.all(8),
+        itemCount: AppData().currentGarden.photos.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+            height: 50,
+            child: Text('Todo'),
+          );
+        });
+  }
+
+  Widget _photosTab() {
+    return ListView.builder(
+        padding: const EdgeInsets.all(8),
+        itemCount: AppData().currentGarden.photos.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+            height: 50,
+            child: Text('Todo'),
+          );
+        });
+  }
+
   Widget _buildAlgemeen() {
     return GardenForm();
   }
-
 
   Widget _buildNotes() {
     return Column(
@@ -122,16 +145,16 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
         Container(
           height: 10,
         ),
-           Container(
-             color: Colors.amberAccent,
-             height: 100,
-             width: 400,
-             child: Row(
-              children: [
-                _notesChilds(),
-              ],
+        Container(
+          color: Colors.amberAccent,
+          height: 100,
+          width: 400,
+          child: Row(
+            children: [
+              _notesChilds(),
+            ],
           ),
-           ),
+        ),
       ],
     );
   }
@@ -146,14 +169,14 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
           _addNote);
     } else {
       return Row(
-          children: [
-              Container(
-                height: 100,
-                width: 250,
-                child:  _noteInputField(),
-              ),
-            wh.roundButton(Icon(Icons.save, size: 24.0), _dummy)
-          ],
+        children: [
+          Container(
+            height: 100,
+            width: 250,
+            child: _noteInputField(),
+          ),
+          wh.roundButton(Icon(Icons.save, size: 24.0), _dummy)
+        ],
       );
     }
   }
@@ -199,7 +222,8 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
     );
   }
 
-  Widget _inputField(TextEditingController ctrl, String label, String errmsg, int maxLines) {
+  Widget _inputField(
+      TextEditingController ctrl, String label, String errmsg, int maxLines) {
     return wh.buildIinputField(ctrl, label, errmsg, maxLines);
   }
 }

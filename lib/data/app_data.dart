@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:location/location.dart';
 import 'package:wilde_tuinen/model/garden.dart';
 
 class Constants {
@@ -24,5 +25,13 @@ class AppData {
   Garden currentGarden = Garden();
   Garden newGarden = Garden();
   Set<Garden> gardens = new Set();
+  
+  late LocationData _currentLocationData;
+  LocationData get currentLocationData => _currentLocationData;
+  set currentLocationData(LocationData locdata) {
+    this._currentLocationData = locdata;
+    this.newGarden.lat = locdata.latitude as double;
+    this.newGarden.lng = locdata.longitude as double;
+  }
 
 }

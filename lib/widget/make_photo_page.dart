@@ -39,6 +39,12 @@ class _TakePhotoPageState extends State<TakePhotoPage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        leading: IconButton(
+        icon: const Icon(Icons.arrow_back_outlined),
+        onPressed: () { 
+          AppEvents.fireSwitchStack(STACK_HOME);
+         },
+      ),
         title: Text(widget.title),
       ),
       body: Column(
@@ -143,6 +149,7 @@ class _TakePhotoPageState extends State<TakePhotoPage> {
         context,
         MaterialPageRoute(
             builder: (_) => CameraCamera(
+                  cameraSide: CameraSide.front,
                   onFile: (file) {
                     _photos.clear();
                     _photos.add(file);

@@ -4,6 +4,7 @@ import 'package:location/location.dart';
 import 'package:wilde_tuinen/data/app_data.dart';
 import 'package:wilde_tuinen/util/marker_utils.dart';
 import 'package:wilde_tuinen/event/app_events.dart';
+import 'package:wilde_tuinen/util/location_helper.dart';
 // import 'dart:developer'; 
 
 class HomePage extends StatefulWidget {
@@ -29,9 +30,6 @@ class _HomePageState extends State<HomePage> {
   double _lng = 80.2707;
 
   Location location = new Location();
-  late LocationData _locationData;
-  bool _serviceEnabled = false;
-  PermissionStatus? _permissionGranted;
 
   final LatLng _center = const LatLng(0.0, 0.677433);
   double _zoom = 2.0;
@@ -72,23 +70,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   _locateMe() async {
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        return;
-      }
-    }
-
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
-
-    _locationData = await location.getLocation();
+    var _locationData = await LocationHelper().locateMe();
     _lat = _locationData.latitude ?? 0.0;
     _lng = _locationData.longitude ?? 0.0;
 
@@ -110,12 +92,6 @@ class _HomePageState extends State<HomePage> {
       // log('lat = ' + AppData().newGarden.lat.toString());
     });
   }
-
-  // void _onMarkersReady(MarkersReadyEvent event) {
-  //   setState(() {
-  //     _zoom = 10;
-  //   });
-  // }
 
   _buildMarkers(BuildContext context) {
     return _mu.buildMarkers(context);

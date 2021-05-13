@@ -81,37 +81,4 @@ class MarkerUtils {
     );
   }
 
-  Set<Garden> _retrieveGardens() {
-    // return Future.delayed(Duration(milliseconds: 100), () {
-    Set<Garden> r = new Set();
-
-    r.add(_buildGarden(1, 'Abc', 51.41, 5.50, 'Vlindertuin'));
-    r.add(_buildGarden(2, 'Def', 51.46, 5.51, 'Mooie tuin'));
-    r.add(_buildGarden(3, 'Xys', 51.47, 5.54, 'Blah'));
-
-    return r;
-    // });
-  }
-
-  Garden _buildGarden(
-      int id, String name, double lat, double lng, String descr) {
-    Garden g = new Garden();
-    g.id = id;
-    g.name = name;
-    g.lat = lat;
-    g.lng = lng;
-    g.description = descr;
-
-    g.notes.add(_buildNote('Notitie abd'));
-    g.notes.add(_buildNote('Notitie jkhh kh jh kjh '));
-    g.notes.add(_buildNote('Notitie vvvbbb  '));
-    
-    return g;
-  }
-
-  Note _buildNote(String note) {
-    Note n = new Note();
-    n.note = note;
-    return n;
-  }
 }
