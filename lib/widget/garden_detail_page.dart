@@ -26,6 +26,7 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
   bool _showAddNote = true;
 
   final _ctrl1 = TextEditingController();
+  var _readOnly = true;
 
   _GardenDetailPageState() {
     AppEvents.onGardenSelected(_onGardenSelected);
@@ -70,7 +71,7 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: _buildTabs(),
+        appBar: _buildTabHeaders(),
         body: TabBarView(
           children: [
             _buildAlgemeen(),
@@ -82,7 +83,7 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
     );
   }
 
-  PreferredSize _buildTabs() {
+  PreferredSize _buildTabHeaders() {
     return PreferredSize(
       preferredSize: Size.fromHeight(50.0),
       child: AppBar(
@@ -96,36 +97,12 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
               child: Text('Notes'),
             ),
             Tab(
-              child: _photosTab(),
+              child: Text('Extra fotos'),
             ),
           ],
         ),
       ),
     );
-  }
-
-  Widget _notesTab() {
-    return ListView.builder(
-        padding: const EdgeInsets.all(8),
-        itemCount: AppData().currentGarden.photos.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            height: 50,
-            child: Text('Todo'),
-          );
-        });
-  }
-
-  Widget _photosTab() {
-    return ListView.builder(
-        padding: const EdgeInsets.all(8),
-        itemCount: AppData().currentGarden.photos.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            height: 50,
-            child: Text('Todo'),
-          );
-        });
   }
 
   Widget _buildAlgemeen() {
@@ -224,6 +201,6 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
 
   Widget _inputField(
       TextEditingController ctrl, String label, String errmsg, int maxLines) {
-    return wh.buildIinputField(ctrl, label, errmsg, maxLines);
+    return wh.buildIinputField(ctrl, label, errmsg, maxLines, _readOnly);
   }
 }

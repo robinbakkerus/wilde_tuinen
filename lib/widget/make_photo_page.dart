@@ -40,11 +40,11 @@ class _TakePhotoPageState extends State<TakePhotoPage> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         leading: IconButton(
-        icon: const Icon(Icons.arrow_back_outlined),
-        onPressed: () { 
-          AppEvents.fireSwitchStack(STACK_HOME);
-         },
-      ),
+          icon: const Icon(Icons.arrow_back_outlined),
+          onPressed: () {
+            AppEvents.fireSwitchStack(STACK_HOME);
+          },
+        ),
         title: Text(widget.title),
       ),
       body: Column(
@@ -121,8 +121,9 @@ class _TakePhotoPageState extends State<TakePhotoPage> {
       color: Colors.white,
       child: Column(
         children: [
-          wh.buildIinputField(_txtCtrlName, 'Naam', 'errmsg', 1),
-          wh.buildIinputField(_txtCtrlDescr, 'Omschrijving', 'errmsg', 2),
+          wh.buildIinputField(_txtCtrlName, 'Naam', 'errmsg', 1, false),
+          wh.buildIinputField(
+              _txtCtrlDescr, 'Omschrijving', 'errmsg', 2, false),
           _saveButton(size),
         ],
       ),
