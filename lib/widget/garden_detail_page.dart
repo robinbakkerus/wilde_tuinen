@@ -22,11 +22,14 @@ class _GardenDetailPage extends StatefulWidget {
 //------------------
 
 class _GardenDetailPageState extends State<_GardenDetailPage> {
+  var _mode = MODUS.READ;
   Garden _garden = AppData().currentGarden;
   bool _showAddNote = true;
+  String _actionText = '+ Nieuwe aantekening';
 
   final _ctrl1 = TextEditingController();
   var _readOnly = true;
+  var _actionEnabled = true;
 
   _GardenDetailPageState() {
     AppEvents.onGardenSelected(_onGardenSelected);
@@ -40,6 +43,7 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
 
   @override
   void initState() {
+    _ctrl1.addListener(_onTextChanged);
     super.initState();
   }
 
@@ -119,42 +123,18 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
               Note note = _garden.notes[index];
               return _buildCard(note);
             }),
-        Container(
-          height: 10,
-        ),
-        Container(
-          color: Colors.amberAccent,
-          height: 100,
-          width: 400,
-          child: Row(
-            children: [
-              _notesChilds(),
-            ],
-          ),
-        ),
+        wh.verSpace(10.0),
+        _notesChilds(),
+        _actionButton(context),
       ],
     );
   }
 
   Widget _notesChilds() {
-    if (this._showAddNote) {
-      return wh.roundButton(
-          Text(
-            '+',
-            style: TextStyle(color: Colors.white, fontSize: 24),
-          ),
-          _addNote);
+    if (_mode != MODUS.READ) {
+      return _noteInputField();
     } else {
-      return Row(
-        children: [
-          Container(
-            height: 100,
-            width: 250,
-            child: _noteInputField(),
-          ),
-          wh.roundButton(Icon(Icons.save, size: 24.0), _dummy)
-        ],
-      );
+      return new Container(height: 0.0);
     }
   }
 
@@ -178,20 +158,6 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
     );
   }
 
-  _addNote() {
-    setState(() {
-      this._showAddNote = !this._showAddNote;
-      print('TODO nu ' + this._showAddNote.toString());
-    });
-  }
-
-  _dummy() {
-    setState(() {
-      this._showAddNote = !this._showAddNote;
-      print('TODO nu ' + this._showAddNote.toString());
-    });
-  }
-
   Widget _noteInputField() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -203,4 +169,69 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
       TextEditingController ctrl, String label, String errmsg, int maxLines) {
     return wh.buildIinputField(ctrl, label, errmsg, maxLines, _readOnly);
   }
+
+  void _onActionClicked() {
+    if (this._mode == MODUS.READY_TO_SAVE) {
+      // ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+      Note note = new Note();
+      note.lastupdated = DateTime.now();
+      note.updatedBy = 'me';
+      note.note = _ctrl1.text;
+      _garden.notes.add(note);
+
+      AppEvents.fireSaveGarden(_garden);
+    }
+    this._setModus();
+  }
+
+  Padding _actionButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ElevatedButton(
+        onPressed: !_actionEnabled
+            ? null
+            : () {
+                this._onActionClicked();
+              },
+        child: Text(_actionText),
+      ),
+    );
+  }
+
+  void _setModus() {
+    if (this._mode == MODUS.READ) {
+      this._mode = MODUS.EDIT;
+    } else if (this._mode == MODUS.EDIT) {
+      this._mode = MODUS.EDIT;
+    } else if (this._mode == MODUS.READY_TO_SAVE) {
+      this._mode = MODUS.READ;
+    }
+
+    if (this._mode == MODUS.READ) {
+      _readOnly = true;
+      _actionEnabled = true;
+      _actionText = '+ Nieuwe aantekening';
+    } else if (this._mode == MODUS.EDIT) {
+      _readOnly = false;
+      _actionEnabled = false;
+      _actionText = 'Sla op';
+    } else if (this._mode == MODUS.READY_TO_SAVE) {
+      _readOnly = true;
+      _actionEnabled = true;
+      _actionText = '+ Nieuwe aantekening';
+    }
+
+    setState(() {});
+  }
+
+  void _onTextChanged() {
+    if (_ctrl1.text.length > 0) {
+      setState(() {
+        this._actionEnabled = true;
+        this._mode = MODUS.READY_TO_SAVE;
+      });
+    }
+  }
 }
+
+enum MODUS { READ, EDIT, READY_TO_SAVE }

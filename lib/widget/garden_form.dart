@@ -26,7 +26,7 @@ class _GardenFormState extends State<GardenForm> {
   final _ctrl2 = TextEditingController();
 
   late Uint8List _bytes;
-  late MODUS _mode;
+  var _mode = MODUS.READ;
   String _actionText = 'Wijzig';
   Garden _garden = new Garden();
 
@@ -35,8 +35,6 @@ class _GardenFormState extends State<GardenForm> {
 
   @override
   void initState() {
-    _mode = MODUS.READ;
-
     _ctrl1.addListener(_onTextChanged);
     _ctrl2.addListener(_onTextChanged);
 
