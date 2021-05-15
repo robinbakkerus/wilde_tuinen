@@ -14,6 +14,7 @@ class Garden {
   DateTime? lastupdated;
   List<Note> notes = [];
   List<Photo> photos = [];
+  late GardenType type;
 
   Garden();
   Map<String, dynamic> toJson() => _$GardenToJson(this);
@@ -40,4 +41,22 @@ class Photo {
   Photo();
   Map<String, dynamic> toJson() => _$PhotoToJson(this);
   factory Photo.fromJson(Map<String, dynamic> map) => _$PhotoFromJson(map);
+}
+
+enum GardenType {
+  VT,
+  NB,
+}
+
+extension GardenTypeExt on GardenType {
+   String get name {
+    switch (this) {
+      case GardenType.VT:
+        return 'Vlindertuin';
+      case GardenType.NB:
+        return 'Nieuw beheer';
+      default:
+        return '??';
+    }
+  }
 }

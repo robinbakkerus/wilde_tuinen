@@ -7,17 +7,17 @@ import 'package:wilde_tuinen/data/app_data.dart';
 import 'package:wilde_tuinen/util/image_utils.dart';
 import 'package:wilde_tuinen/widget/widget_helper.dart' as wh;
 
-class TakePhotoPage extends StatefulWidget {
-  TakePhotoPage({Key? key, required this.title}) : super(key: key);
+class AddNewGardenPage extends StatefulWidget {
+  AddNewGardenPage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _TakePhotoPageState createState() => _TakePhotoPageState();
+  _AddNewGardenPageState createState() => _AddNewGardenPageState();
 }
 
 //---------------------------------------------------------------------
-class _TakePhotoPageState extends State<TakePhotoPage> {
+class _AddNewGardenPageState extends State<AddNewGardenPage> {
   final _photos = <File>[];
   final _txtCtrlName = TextEditingController();
   final _txtCtrlDescr = TextEditingController();

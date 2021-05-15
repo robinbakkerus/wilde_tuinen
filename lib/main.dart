@@ -63,7 +63,7 @@ class _AppState extends State<_App> {
         children: <Widget>[
           StartPage(), // 0 STACK_HOME
           GardenDetailPage(), // 1 STACK_DETAIL_PAGE
-          TakePhotoPage(title: 'Foto'), // 2 STACK_TAKE_PICTURE
+          AddNewGardenPage(title: 'Foto'), // 2 STACK_TAKE_PICTURE
           AdminPage(), // 3 STACK_ADMIN
         ],
       ),
