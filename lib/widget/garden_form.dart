@@ -22,6 +22,7 @@ class _GardenFormState extends State<GardenForm> {
   final _formKey = GlobalKey<FormState>();
   final _ctrl1 = TextEditingController();
   final _ctrl2 = TextEditingController();
+  late BuildContext _context;
 
   Uint8List? _bytes;
   var _mode = MODUS.READ;
@@ -50,6 +51,7 @@ class _GardenFormState extends State<GardenForm> {
 
   @override
   Widget build(BuildContext context) {
+    _context = context;
     final size = MediaQuery.of(context).size;
 
     return ListView(
@@ -112,7 +114,10 @@ class _GardenFormState extends State<GardenForm> {
 
   void _onActionClicked() {
     if (this._mode == MODUS.READY_TO_SAVE) {
+      _garden.name = _ctrl1.text;
+      _garden.description = _ctrl2.text;
       AppEvents.fireSaveGarden(_garden);
+      wh.successMsg('Met succes opgeslagen', _context);
     }
     this._setModus();
   }

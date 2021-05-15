@@ -18,9 +18,6 @@ class FirestoreService {
       CollectionReference gardens =
           FirebaseFirestore.instance.collection('wild-gardens');
 
-      garden.lastupdated = DateTime.now();
-      garden.updatedBy = 'todo';
-
       if (garden.id == 0) {
         garden.id = DateTime.now().millisecondsSinceEpoch;
         DocumentReference docRef = gardens.doc(garden.id.toString());

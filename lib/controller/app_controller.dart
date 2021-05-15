@@ -18,12 +18,20 @@ class AppController {
 
   void _onSaveGarden(SaveGardenEvent event) {
     var g = event.garden;
+
+    final isNew = g.id == 0;
+
     g.lastupdated = DateTime.now();
     g.updatedBy = 'todo';
     FirestoreService()..saveGarden(g);
 
-    AppData().gardens.add(AppData().newGarden);
+    if (isNew) {
+      AppData().gardens.add(AppData().newGarden);
+    } else {
+      // var updateGarden = AppData().gardens.firstWhere((element) => element.id == g.id);
+      // updateGarden = g;
+    }
+
     AppEvents.fireGardensRetrieved();
   }
-
 }

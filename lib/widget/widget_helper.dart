@@ -38,3 +38,11 @@ Widget verSpace(double h) {
     height: h,
   );
 }
+
+void successMsg(String msg, BuildContext context) {
+  final snackBar = SnackBar(
+    content: Text(msg),
+  );
+
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}

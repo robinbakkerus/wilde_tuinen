@@ -183,8 +183,8 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
       note.note = _ctrl1.text;
       _garden.notes.add(note);
 
-      // AppEvents.fireSaveGarden(_garden);
-      _successMsg('Met succes opgeslagen');
+      AppEvents.fireSaveGarden(_garden);
+      wh.successMsg('Met succes opgeslagen', _context);
     }
     this._setModus();
   }
@@ -238,13 +238,6 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
     }
   }
 
-  _successMsg(String msg) {
-    final snackBar = SnackBar(
-      content: Text(msg),
-    );
-
-    ScaffoldMessenger.of(_context).showSnackBar(snackBar);
-  }
 }
 
 enum MODUS { READ, EDIT, READY_TO_SAVE }
