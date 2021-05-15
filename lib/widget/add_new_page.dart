@@ -6,6 +6,7 @@ import 'package:wilde_tuinen/event/app_events.dart';
 import 'package:wilde_tuinen/data/app_data.dart';
 import 'package:wilde_tuinen/util/image_utils.dart';
 import 'package:wilde_tuinen/widget/widget_helper.dart' as wh;
+import 'package:wilde_tuinen/model/garden.dart';
 
 class AddNewGardenPage extends StatefulWidget {
   AddNewGardenPage({Key? key, required this.title}) : super(key: key);
@@ -21,6 +22,7 @@ class _AddNewGardenPageState extends State<AddNewGardenPage> {
   final _photos = <File>[];
   final _txtCtrlName = TextEditingController();
   final _txtCtrlDescr = TextEditingController();
+  var _type = GardenType.VT;
   var _state = PS.INIT;
   late BuildContext _context;
 
@@ -60,19 +62,15 @@ class _AddNewGardenPageState extends State<AddNewGardenPage> {
                     fit: BoxFit.cover,
                   ),
           ),
-          _verSpace(),
+          wh.verSpace(10),
+          _askGardenType(size),
+          wh.verSpace(10),
           if (_state == PS.INIT) _takePhotoButton(size),
           if (_state == PS.PHOTO_OKAY) _nameInputField(size),
           if (_state == PS.READY_TO_SAVE) _saveButton(size),
           if (_state == PS.PHOTO_READY) _askPhotoOk(size),
         ],
       ),
-    );
-  }
-
-  Widget _verSpace() {
-    return Container(
-      height: 10,
     );
   }
 
@@ -163,13 +161,49 @@ class _AddNewGardenPageState extends State<AddNewGardenPage> {
                 )));
   }
 
-  Container _takePhotoButton(Size size) {
+  Widget _takePhotoButton(Size size) {
     return Container(
       width: size.width,
       color: Colors.white,
-      child: ElevatedButton(
-        onPressed: _openCamera,
-        child: Text('Maak foto'),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(100, 0, 100, 0),
+        child: ElevatedButton(
+          onPressed: _openCamera,
+          child: Text('Maak foto'),
+        ),
+      ),
+    );
+  }
+
+  Widget _askGardenType(Size size) {
+    return Container(
+       width: size.width,
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(100, 0, 100, 0),
+        child: DropdownButton<GardenType>(
+          value: _type,
+          icon: const Icon(Icons.arrow_downward),
+          iconSize: 16,
+          elevation: 16,
+          style: const TextStyle(color: Colors.blue),
+          underline: Container(
+            height: 2,
+            color: Colors.blue,
+          ),
+          onChanged: (GardenType? newValue) {
+            setState(() {
+              _type = newValue!;
+            });
+          },
+          items: gardenTypes
+              .map<DropdownMenuItem<GardenType>>((GardenType value) {
+            return DropdownMenuItem<GardenType>(
+              value: value,
+              child: Text(value.name),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
@@ -182,6 +216,7 @@ class _AddNewGardenPageState extends State<AddNewGardenPage> {
     garden.name = _txtCtrlName.text;
     garden.description = _txtCtrlDescr.text;
     garden.fotoBase64 = obj;
+    garden.type = _type;
 
     AppEvents.fireSaveGarden(garden);
     _successMsg('Met success opgeslagen');

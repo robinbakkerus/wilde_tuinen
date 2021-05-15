@@ -25,8 +25,11 @@ class MarkerUtils {
 
     this._gardens.forEach((g) {
       final markerId = MarkerId(g.id.toString());
+      final icon = _getIcon(g.type);
+
       final Marker marker = Marker(
         markerId: markerId,
+        icon: icon,
         position: LatLng(g.lat, g.lng),
         infoWindow: InfoWindow(title: g.name, snippet: g.name),
         onTap: () {
@@ -38,6 +41,15 @@ class MarkerUtils {
     });
 
     return _markers;
+  }
+
+
+  BitmapDescriptor _getIcon(GardenType type) {
+    if (type == GardenType.VT) {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
+    } else {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange);
+    }
   }
 
   void _onMarkerTapped(BuildContext context, MarkerId markId) {

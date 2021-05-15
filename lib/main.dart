@@ -4,7 +4,7 @@ import 'package:wilde_tuinen/widget/garden_detail_page.dart';
 import 'package:wilde_tuinen/event/app_events.dart';
 import 'package:wilde_tuinen/controller/app_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:wilde_tuinen/widget/make_photo_page.dart';
+import 'package:wilde_tuinen/widget/add_new_page.dart';
 import 'package:wilde_tuinen/widget/admin.dart';
 
 void main() async {

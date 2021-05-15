@@ -14,7 +14,7 @@ class Garden {
   DateTime? lastupdated;
   List<Note> notes = [];
   List<Photo> photos = [];
-  late GardenType type;
+  GardenType type = GardenType.VT; //default
 
   Garden();
   Map<String, dynamic> toJson() => _$GardenToJson(this);
@@ -60,3 +60,5 @@ extension GardenTypeExt on GardenType {
     }
   }
 }
+
+List<GardenType> gardenTypes = [GardenType.VT, GardenType.NB];

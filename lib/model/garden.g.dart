@@ -23,7 +23,8 @@ Garden _$GardenFromJson(Map<String, dynamic> json) {
         .toList()
     ..photos = (json['photos'] as List<dynamic>)
         .map((e) => Photo.fromJson(e as Map<String, dynamic>))
-        .toList();
+        .toList()
+    ..type = _$enumDecode(_$GardenTypeEnumMap, json['type']);
 }
 
 Map<String, dynamic> _$GardenToJson(Garden instance) => <String, dynamic>{
@@ -37,7 +38,39 @@ Map<String, dynamic> _$GardenToJson(Garden instance) => <String, dynamic>{
       'lastupdated': instance.lastupdated?.toIso8601String(),
       'notes': instance.notes.map((e) => e.toJson()).toList(),
       'photos': instance.photos.map((e) => e.toJson()).toList(),
+      'type': _$GardenTypeEnumMap[instance.type],
     };
+
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
+  }
+
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
+}
+
+const _$GardenTypeEnumMap = {
+  GardenType.VT: 'VT',
+  GardenType.NB: 'NB',
+};
 
 Note _$NoteFromJson(Map<String, dynamic> json) {
   return Note()
