@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:wilde_tuinen/event/app_events.dart';
 import 'package:wilde_tuinen/data/app_data.dart';
 import 'package:wilde_tuinen/service/firestore_service.dart';
