@@ -4,6 +4,7 @@ import 'package:wilde_tuinen/data/app_data.dart';
 import 'package:wilde_tuinen/model/garden.dart';
 import 'package:wilde_tuinen/widget/garden_form.dart';
 import 'package:wilde_tuinen/widget/widget_helper.dart' as wh;
+// import 'dart:developer';
 
 class GardenDetailPage extends StatelessWidget {
   @override
@@ -24,12 +25,13 @@ class _GardenDetailPage extends StatefulWidget {
 class _GardenDetailPageState extends State<_GardenDetailPage> {
   var _mode = MODUS.READ;
   Garden _garden = AppData().currentGarden;
-  bool _showAddNote = true;
+  // bool _showAddNote = true;
   String _actionText = '+ Nieuwe aantekening';
 
   final _ctrl1 = TextEditingController();
   var _readOnly = true;
   var _actionEnabled = true;
+  late BuildContext _context;
 
   _GardenDetailPageState() {
     AppEvents.onGardenSelected(_onGardenSelected);
@@ -49,6 +51,8 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    _context = context;
+
     return new Scaffold(
       appBar: _buildAppBar(context),
       body: _buildBody(),
@@ -174,12 +178,13 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
     if (this._mode == MODUS.READY_TO_SAVE) {
       // ScaffoldMessenger.of(context).showSnackBar(_snackBar);
       Note note = new Note();
-      note.lastupdated = DateTime.now();
+      note.lastupdated = null; // DateTime.now();
       note.updatedBy = 'me';
       note.note = _ctrl1.text;
       _garden.notes.add(note);
 
-      AppEvents.fireSaveGarden(_garden);
+      // AppEvents.fireSaveGarden(_garden);
+      _successMsg('Met succes opgeslagen');
     }
     this._setModus();
   }
@@ -231,6 +236,14 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
         this._mode = MODUS.READY_TO_SAVE;
       });
     }
+  }
+
+  _successMsg(String msg) {
+    final snackBar = SnackBar(
+      content: Text(msg),
+    );
+
+    ScaffoldMessenger.of(_context).showSnackBar(snackBar);
   }
 }
 

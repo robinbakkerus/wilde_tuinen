@@ -20,16 +20,35 @@ class FirestoreService {
 
       garden.lastupdated = DateTime.now();
       garden.updatedBy = 'todo';
-      garden.id = DateTime.now().millisecondsSinceEpoch;
-      var json = garden.toJson();
 
-      gardens
-          .add(json)
-          .then((value) => print('Added garden'))
-          .catchError((error) => log("Failed to add garden. $error"));
+      if (garden.id == 0) {
+        garden.id = DateTime.now().millisecondsSinceEpoch;
+        DocumentReference docRef = gardens.doc(garden.id.toString());
+        _addGarden(docRef, garden);
+      } else {
+        DocumentReference docRef = gardens.doc(garden.id.toString());
+        _updateGarden(docRef, garden);
+      }
     } catch (ex) {
       log("Failed to add garden: $ex");
     }
+  }
+
+  Future<void> _addGarden(DocumentReference docRef, Garden garden) async {
+    var json = garden.toJson();
+    // log('json = ' + json.toString());
+
+    await docRef.set(json).whenComplete(() => null).catchError((e) => print(e));
+  }
+
+  Future<void> _updateGarden(DocumentReference docRef, Garden garden) async {
+    var json = garden.toJson();
+    // log('json = ' + json.toString());
+
+    await docRef
+        .update(json)
+        .whenComplete(() => null)
+        .catchError((e) => print(e));
   }
 
   void retrieveAllGardens() {
@@ -42,9 +61,16 @@ class FirestoreService {
   _mapSnapshot(QuerySnapshot snapshot) {
     AppData().gardens.clear();
 
-     snapshot.docs.forEach((doc) =>
-                  AppData().gardens.add(Garden.fromJson(doc.data() as Map<String, dynamic>)));
-      
+    snapshot.docs.forEach((doc) {
+      // log('doc = ' + doc.data().toString());
+
+      AppData()
+          .gardens
+          .add(Garden.fromJson(doc.data() as Map<String, dynamic>));
+    });
+
+    //           AppData().gardens.add(Garden.fromJson(doc.data() as Map<String, dynamic>)));
+
     AppEvents.fireGardensRetrieved();
   }
 }

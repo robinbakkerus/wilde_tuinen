@@ -2,10 +2,10 @@ import 'dart:typed_data';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:wilde_tuinen/event/app_events.dart';
 import 'package:wilde_tuinen/data/app_data.dart';
 import 'package:wilde_tuinen/model/garden.dart';
 import 'package:wilde_tuinen/widget/widget_helper.dart' as wh;
+import 'package:wilde_tuinen/event/app_events.dart';
 
 class GardenForm extends StatefulWidget {
   GardenForm();
@@ -17,15 +17,13 @@ class GardenForm extends StatefulWidget {
 }
 
 class _GardenFormState extends State<GardenForm> {
-  _GardenFormState() {
-    AppEvents.onGardenSelected(_onGardenSelected);
-  }
+  _GardenFormState();
 
   final _formKey = GlobalKey<FormState>();
   final _ctrl1 = TextEditingController();
   final _ctrl2 = TextEditingController();
 
-  late Uint8List _bytes;
+  Uint8List? _bytes;
   var _mode = MODUS.READ;
   String _actionText = 'Wijzig';
   Garden _garden = new Garden();
@@ -35,19 +33,19 @@ class _GardenFormState extends State<GardenForm> {
 
   @override
   void initState() {
+    _setGarden();
+
     _ctrl1.addListener(_onTextChanged);
     _ctrl2.addListener(_onTextChanged);
 
     super.initState();
   }
 
-  _onGardenSelected(GardenSelectedEvent event) {
-    setState(() {
-      _garden = AppData().currentGarden;
-      _bytes = base64Decode(_garden.fotoBase64 as String);
-      _ctrl1.text = _garden.name;
-      _ctrl2.text = _garden.description;
-    });
+  _setGarden() {
+    _garden = AppData().currentGarden;
+    _bytes = base64Decode(_garden.fotoBase64 as String);
+    _ctrl1.text = _garden.name;
+    _ctrl2.text = _garden.description;
   }
 
   @override
@@ -84,7 +82,7 @@ class _GardenFormState extends State<GardenForm> {
     return Container(
       height: size.width * 0.4,
       width: size.width,
-      child: Image.memory(_bytes),
+      child: Image.memory(_bytes as Uint8List),
     );
   }
 
@@ -114,7 +112,7 @@ class _GardenFormState extends State<GardenForm> {
 
   void _onActionClicked() {
     if (this._mode == MODUS.READY_TO_SAVE) {
-      //todo save
+      AppEvents.fireSaveGarden(_garden);
     }
     this._setModus();
   }
@@ -171,9 +169,5 @@ class _GardenFormState extends State<GardenForm> {
   }
 }
 
-// if (_formKey.currentState!.validate()) {
-//   ScaffoldMessenger.of(context)
-//       .showSnackBar(SnackBar(content: Text('Processing Data')));
-// }
 
 enum MODUS { READ, EDIT, READY_TO_SAVE }

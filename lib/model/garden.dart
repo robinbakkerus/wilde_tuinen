@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'garden.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Garden {
   int id = 0;
   String name = '';
@@ -20,7 +20,7 @@ class Garden {
   factory Garden.fromJson(Map<String, dynamic> map) => _$GardenFromJson(map);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Note {
   String note = '';
   String updatedBy = '';
@@ -31,7 +31,7 @@ class Note {
   factory Note.fromJson(Map<String, dynamic> map) => _$NoteFromJson(map);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Photo {
   String? fotoBase64;
   String? updatedBy;

@@ -21,8 +21,8 @@ class _TakePhotoPageState extends State<TakePhotoPage> {
   final _photos = <File>[];
   final _txtCtrlName = TextEditingController();
   final _txtCtrlDescr = TextEditingController();
-  final _snackBar = SnackBar(content: Text('Yay! A SnackBar!'));
   var _state = PS.INIT;
+  late BuildContext _context;
 
   @override
   void initState() {
@@ -35,6 +35,7 @@ class _TakePhotoPageState extends State<TakePhotoPage> {
 
   @override
   Widget build(BuildContext context) {
+    _context = context;
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.black,
@@ -182,9 +183,8 @@ class _TakePhotoPageState extends State<TakePhotoPage> {
     garden.description = _txtCtrlDescr.text;
     garden.fotoBase64 = obj;
 
-    ScaffoldMessenger.of(context).showSnackBar(_snackBar);
-
     AppEvents.fireSaveGarden(garden);
+    _successMsg('Met success opgeslagen');
 
     setState(() {
       this._txtCtrlName.text = '';
@@ -195,6 +195,14 @@ class _TakePhotoPageState extends State<TakePhotoPage> {
 
   _onTextChanged() {
     setState(() {});
+  }
+
+  _successMsg(String msg) {
+    final snackBar = SnackBar(
+      content: Text(msg),
+    );
+
+    ScaffoldMessenger.of(_context).showSnackBar(snackBar);
   }
 }
 

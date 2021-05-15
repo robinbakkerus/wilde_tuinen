@@ -35,8 +35,8 @@ Map<String, dynamic> _$GardenToJson(Garden instance) => <String, dynamic>{
       'fotoBase64': instance.fotoBase64,
       'updatedBy': instance.updatedBy,
       'lastupdated': instance.lastupdated?.toIso8601String(),
-      'notes': instance.notes,
-      'photos': instance.photos,
+      'notes': instance.notes.map((e) => e.toJson()).toList(),
+      'photos': instance.photos.map((e) => e.toJson()).toList(),
     };
 
 Note _$NoteFromJson(Map<String, dynamic> json) {
