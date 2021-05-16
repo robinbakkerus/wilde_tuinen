@@ -14,10 +14,8 @@ Garden _$GardenFromJson(Map<String, dynamic> json) {
     ..lng = (json['lng'] as num).toDouble()
     ..description = json['description'] as String
     ..fotoBase64 = json['fotoBase64'] as String?
-    ..updatedBy = json['updatedBy'] as String?
-    ..lastupdated = json['lastupdated'] == null
-        ? null
-        : DateTime.parse(json['lastupdated'] as String)
+    ..updatedBy = json['updatedBy'] as String
+    ..lastupdated = DateTime.parse(json['lastupdated'] as String)
     ..notes = (json['notes'] as List<dynamic>)
         .map((e) => Note.fromJson(e as Map<String, dynamic>))
         .toList()
@@ -35,7 +33,7 @@ Map<String, dynamic> _$GardenToJson(Garden instance) => <String, dynamic>{
       'description': instance.description,
       'fotoBase64': instance.fotoBase64,
       'updatedBy': instance.updatedBy,
-      'lastupdated': instance.lastupdated?.toIso8601String(),
+      'lastupdated': instance.lastupdated.toIso8601String(),
       'notes': instance.notes.map((e) => e.toJson()).toList(),
       'photos': instance.photos.map((e) => e.toJson()).toList(),
       'type': _$GardenTypeEnumMap[instance.type],

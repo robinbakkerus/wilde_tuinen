@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 TextFormField buildIinputField(TextEditingController ctrl, String label,
-    String errmsg, int maxLines, bool readOnly) {
+    bool readOnly, {int maxLines = 1} ) {
   return TextFormField(
     readOnly: readOnly,
     controller: ctrl,
@@ -13,7 +13,7 @@ TextFormField buildIinputField(TextEditingController ctrl, String label,
         )),
     validator: (value) {
       if (value == null || value.isEmpty) {
-        return errmsg;
+        return  label + ' is verplicht';
       }
       return null;
     },

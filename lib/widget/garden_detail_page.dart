@@ -32,6 +32,7 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
   var _readOnly = true;
   var _actionEnabled = true;
   late BuildContext _context;
+  var _gardenForm = new GardenForm();
 
   _GardenDetailPageState() {
     AppEvents.onGardenSelected(_onGardenSelected);
@@ -70,6 +71,7 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
     return new IconButton(
       icon: Icon(Icons.west),
       onPressed: () {
+        _reset();
         AppEvents.fireSwitchStack(STACK_HOME);
       },
     );
@@ -82,7 +84,7 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
         appBar: _buildTabHeaders(),
         body: TabBarView(
           children: [
-            _buildAlgemeen(),
+            _gardenForm,
             _buildNotes(),
             _buildPhotos(),
           ],
@@ -111,10 +113,6 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
         ),
       ),
     );
-  }
-
-  Widget _buildAlgemeen() {
-    return GardenForm();
   }
 
   Widget _buildNotes() {
@@ -171,7 +169,7 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
 
   Widget _inputField(
       TextEditingController ctrl, String label, String errmsg, int maxLines) {
-    return wh.buildIinputField(ctrl, label, errmsg, maxLines, _readOnly);
+    return wh.buildIinputField(ctrl, label, _readOnly);
   }
 
   void _onActionClicked() {
@@ -238,6 +236,9 @@ class _GardenDetailPageState extends State<_GardenDetailPage> {
     }
   }
 
+  _reset() {
+    this._mode = MODUS.READ;
+  }
 }
 
 enum MODUS { READ, EDIT, READY_TO_SAVE }

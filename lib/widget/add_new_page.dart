@@ -120,9 +120,9 @@ class _AddNewGardenPageState extends State<AddNewGardenPage> {
       color: Colors.white,
       child: Column(
         children: [
-          wh.buildIinputField(_txtCtrlName, 'Naam', 'errmsg', 1, false),
+          wh.buildIinputField(_txtCtrlName, 'Naam', false),
           wh.buildIinputField(
-              _txtCtrlDescr, 'Omschrijving', 'errmsg', 2, false),
+              _txtCtrlDescr, 'Omschrijving', false, maxLines:2),
           _saveButton(size),
         ],
       ),

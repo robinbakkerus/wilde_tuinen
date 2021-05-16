@@ -57,6 +57,7 @@ class MarkerUtils {
         this._gardens.firstWhere((g) => g.id.toString() == markId.value);
 
     AppData().currentGarden = garden;
+    AppEvents.fireGardenSelected();
     
     showDialog(
       context: context,

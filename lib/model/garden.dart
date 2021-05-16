@@ -10,8 +10,8 @@ class Garden {
   late double lng;
   String description = '';
   String? fotoBase64;
-  String? updatedBy;
-  DateTime? lastupdated;
+  late String updatedBy;
+  late DateTime lastupdated;
   List<Note> notes = [];
   List<Photo> photos = [];
   GardenType type = GardenType.VT; //default
