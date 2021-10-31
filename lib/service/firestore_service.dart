@@ -64,6 +64,7 @@ class FirestoreService {
       AppData()
           .gardens
           .add(Garden.fromJson(doc.data() as Map<String, dynamic>));
+
     });
 
     //           AppData().gardens.add(Garden.fromJson(doc.data() as Map<String, dynamic>)));

@@ -145,6 +145,7 @@ class _GardenFormState extends State<GardenForm> {
   void _fillGardenFromCtrl() {
     _garden.name = _ctrls[0].text;
     _garden.description = _ctrls[1].text;
+    // andere velden todo
   }
 
   void _onTextChanged() {

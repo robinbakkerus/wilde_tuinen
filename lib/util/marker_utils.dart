@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wilde_tuinen/model/garden.dart';
 import 'package:wilde_tuinen/event/app_events.dart';
 import 'package:wilde_tuinen/data/app_data.dart';
+import 'dart:developer';
 
 
 class MarkerUtils {
@@ -22,6 +23,7 @@ class MarkerUtils {
 
   Set<Marker> buildMarkers(BuildContext context) {
     this._gardens = AppData().gardens;
+    this._markers.clear();
 
     this._gardens.forEach((g) {
       final markerId = MarkerId(g.id.toString());
@@ -39,6 +41,9 @@ class MarkerUtils {
 
       _markers.add(marker);
     });
+
+    log('JRB markers = ' + this._markers.length.toString());
+
 
     return _markers;
   }
