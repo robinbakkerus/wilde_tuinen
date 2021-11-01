@@ -19,6 +19,9 @@ const List<Choice> choices = const <Choice>[
 AppBar buildMainAppBar(BuildContext context, int disableButton) {
   
   void _select(Choice choice) {
+    if (choice.stackIndex == STACK_ADMIN) {
+      Navigator.pushNamed(context, '/admin');
+    }
     AppEvents.fireSwitchStack(choice.stackIndex);
   }
 

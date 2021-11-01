@@ -12,18 +12,35 @@ void main() async {
   final fbApp = await Firebase.initializeApp();
   print('created : ' + fbApp.toString());
 
-  runApp(App());
+  runApp(new MaterialApp(
+      title: 'Tuinen',
+      theme: new ThemeData(
+        primarySwatch: Colors.lightGreen,
+      ),
+      // home: _App(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => _App(),
+        '/admin': (context) => AdminPage(),
+      },
+    ));
 }
 
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-        title: 'Tuinen',
-        theme: new ThemeData(
-          primarySwatch: Colors.lightGreen,
-        ),
-        home: _App());
+      title: 'Tuinen',
+      theme: new ThemeData(
+        primarySwatch: Colors.lightGreen,
+      ),
+      // home: _App(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => _App(),
+        '/admin': (context) => AdminPage(),
+      },
+    );
   }
 }
 
@@ -53,20 +70,14 @@ class _AppState extends State<_App> {
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Tuinen',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: IndexedStack(
-        index: _stackIndex,
-        children: <Widget>[
-          StartPage(), // 0 STACK_HOME
-          GardenDetailPage(), // 1 STACK_DETAIL_PAGE
-          AddNewGardenPage(title: 'Foto'), // 2 STACK_TAKE_PICTURE
-          AdminPage(), // 3 STACK_ADMIN
-        ],
-      ),
+    return IndexedStack(
+      index: _stackIndex,
+      children: <Widget>[
+        StartPage(), // 0 STACK_HOME
+        GardenDetailPage(), // 1 STACK_DETAIL_PAGE
+        AddNewGardenPage(title: 'Foto'), // 2 STACK_TAKE_PICTURE
+        AdminPage(), // 3 STACK_ADMIN
+      ],
     );
   }
 }
